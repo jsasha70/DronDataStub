@@ -29,4 +29,8 @@ public class DronData implements Serializable {
     public long getT() {
         return t;
     }
+
+    public void setT(long t) {
+        this.t = t;
+    }
 }
