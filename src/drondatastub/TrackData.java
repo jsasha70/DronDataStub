@@ -19,21 +19,26 @@ public class TrackData {
         }
 
         long tim = new Date().getTime();
+        long tim2;
         DronData dd;
         for (int i = 0; i < lst.length; i++) {
             dd = lst[i];
-            if (dd.getT() >= tim) {
-                try {
-                    Thread.sleep(dd.getT() - tim);
-                } catch (InterruptedException e) {
+            tim2 = dd.getT();
+            if (tim2 >= tim) {
+                while (tim2 >= new Date().getTime()) {
+                    try {
+                        Thread.sleep(tim2 - new Date().getTime() + 1);
+                    } catch (InterruptedException e) {
+                    }
+                    return dd;
                 }
-                return dd;
             }
         }
 
         // дошли до конца массива, запускаем дрон в обратную сторону
+        tim = new Date().getTime();
         DronData lst2[] = new DronData[lst.length];
-        long tim2 = tim + lst[lst.length - 1].getT();
+        tim2 = tim + lst[lst.length - 1].getT();
         for (int i = 0; i < lst.length; i++) {
             lst[i].setT(tim2 - lst[i].getT());
             lst2[lst.length - i - 1] = lst[i];
