@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
 public class TrackData {
 
@@ -19,16 +20,28 @@ public class TrackData {
     }
 
     private boolean loadFile(String fname) {
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(
-                        new FileInputStream(fname), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fname), StandardCharsets.UTF_8))) {
             String line;
+            int skip = 6;
+            ArrayList<DronData> dat = new ArrayList(100);
+            String ss[];
+
             while ((line = reader.readLine()) != null) {
+                if (skip > 0) {
+                    continue;
+                }
+                skip--;
+
+                ss=line.split(",");
+                
+                dat.add(new DronData(, skip, skip, skip))
+
                 System.out.println(line);
             }
+            return true;
         } catch (IOException e) {
-            // log error
+            System.err.println("error accesing file " + fname + ": " + e.toString());
+            return false;
         }
-        return false;
     }
 }
