@@ -7,27 +7,17 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class TrackData {
 
     private DronData lst[];
-    private int fileNo;
-    private static HashMap<Integer, TrackData> tracks = new HashMap(10);
+    private int dronNo;
 
-    public static DronData nextPoint(int dronNo) {
-        if (!tracks.containsKey(dronNo)) {
-            TrackData td = new TrackData(dronNo);
-            if (td.getLstLen() == 0) {
-                tracks.put(dronNo, null);
-            } else {
-                tracks.put(dronNo, td);
-            }
+    public DronData nextPoint() {
+        if (lst.length == 0) {
+            return null;
         }
-        return tracks.get(dronNo).nextPoint();
-    }
 
-    private DronData nextPoint() {
         long tim = new Date().getTime();
         DronData dd;
         for (int i = 0; i < lst.length; i++) {
@@ -53,6 +43,7 @@ public class TrackData {
     }
 
     public TrackData(int dronNo) {
+        this.dronNo = dronNo;
         String fname = "assets\\" + dronNo + ".plt";
         if (!loadFile(fname)) {
             lst = new DronData[0];
@@ -74,15 +65,15 @@ public class TrackData {
                 }
 
                 ss = line.split(",");
-                tim = (long) ((Float.parseFloat(ss[4]) - 25567) * 86400000);
+                tim = (long) ((Double.parseDouble(ss[4]) - 25567) * 86400000);
                 if (tim1 == 0) {
                     tim1 = new Date().getTime() - tim + 1;
                 }
                 tim += tim1;
 
-                dat.add(new DronData(Float.parseFloat(ss[0]),
-                        Float.parseFloat(ss[1]),
-                        Float.parseFloat(ss[3]) / 3.28,
+                dat.add(new DronData(Double.parseDouble(ss[0]),
+                        Double.parseDouble(ss[1]),
+                        Double.parseDouble(ss[3]) / 3.28,
                         tim));
             }
 
@@ -107,7 +98,7 @@ public class TrackData {
         return lst[i];
     }
 
-    public int getFileNo() {
-        return fileNo;
+    public int getDronNo() {
+        return dronNo;
     }
 }
