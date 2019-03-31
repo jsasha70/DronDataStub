@@ -14,7 +14,7 @@ public class TrackData {
     private int dronNo;
 
     public DronData nextPoint() {
-        if (lst.length == 0) {
+        if (lst.length < 2) {
             return null;
         }
 
@@ -36,15 +36,14 @@ public class TrackData {
         }
 
         // дошли до конца массива, запускаем дрон в обратную сторону
-        tim = new Date().getTime();
         DronData lst2[] = new DronData[lst.length];
-        tim2 = tim + lst[lst.length - 1].getT();
+        tim = lst[lst.length - 1].getT() * 2;
         for (int i = 0; i < lst.length; i++) {
-            lst[i].setT(tim2 - lst[i].getT());
+            lst[i].setT(tim - lst[i].getT());
             lst2[lst.length - i - 1] = lst[i];
         }
         lst = lst2;
-        return lst[0];
+        return nextPoint();
     }
 
     public TrackData(int dronNo) {
