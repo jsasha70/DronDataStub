@@ -55,13 +55,18 @@ public class TrackData {
         }
     }
 
+    private static double SPEED = 5;
+
     private boolean loadFile(String fname) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(fname), StandardCharsets.UTF_8))) {
             String line;
             int skip = 6;
             ArrayList<DronData> dat = new ArrayList(100);
             String ss[];
-            long tim, tim1 = 0;
+            long tim;
+            long tim0 = new Date().getTime() + 100;
+            double tim1 = 0, t;
+            boolean firstTime = true;
 
             while ((line = reader.readLine()) != null) {
                 if (skip > 0) {
@@ -70,11 +75,14 @@ public class TrackData {
                 }
 
                 ss = line.split(",");
-                tim = (long) ((Double.parseDouble(ss[4]) - 25567) * 86400000);
-                if (tim1 == 0) {
-                    tim1 = new Date().getTime() - tim + 1;
+                t = Double.parseDouble(ss[4]) - 25567;
+                if (firstTime) {
+                    tim1 = t;
+                    firstTime = false;
                 }
-                tim += tim1;
+                t = (t - tim1) / SPEED;
+                tim = (long) (t * 86400000);
+                tim += tim0;
 
                 dat.add(new DronData(Double.parseDouble(ss[0]),
                         Double.parseDouble(ss[1]),
