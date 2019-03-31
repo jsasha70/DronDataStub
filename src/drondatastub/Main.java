@@ -20,7 +20,7 @@ public class Main {
         for (int i = 0; i < minLen; i++) {
             System.out.println("[");
             for (int j = 0; j < tt.length; j++) {
-                s = "{ \"dronID\": " + (j + 1) + ", \"drodUID\"=\"a\", \"lat\": "
+                s = "{ \"dronID\": " + (j + 1) + ", \"drodUID\": \"a\", \"lat\": "
                         + tt[j].lst[i].getLat() + ", \"lon\": "
                         + tt[j].lst[i].getLon() + ", \"h\": "
                         + tt[j].lst[i].getH() + ", \"t\": "
