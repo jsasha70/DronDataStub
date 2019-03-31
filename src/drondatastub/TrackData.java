@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class TrackData {
 
-    private DronData lst[];
+    public DronData lst[];
     private int dronNo;
 
     public DronData nextPoint() {

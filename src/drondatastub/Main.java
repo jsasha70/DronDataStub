@@ -1,15 +1,38 @@
 package drondatastub;
 
+
 public class Main {
 
     public static void main(String[] args) {
-        DronData dd;
-        long t1 = 0, dt;
-        for (int i = 0; i < 1000; i++) {
-            dd = DronStub.nextPoint(1);
-            dt = dd.getT() - t1;
-            t1 = dd.getT();
-            System.out.println("" + dd.getLat() + "/" + dd.getLon() + "/" + dd.getH() + " - " + dt);
+        TrackData tt[] = new TrackData[5];
+        int minLen = 999999999;
+        String s;
+        for (int i = 0; i < tt.length; i++) {
+            tt[i] = new TrackData(i + 1);
+            if (minLen > tt[i].lst.length) {
+                minLen = tt[i].lst.length;
+            }
         }
+
+//        minLen = 3;
+
+        System.out.println("\"items\": [");
+        for (int i = 0; i < minLen; i++) {
+            System.out.println("[");
+            for (int j = 0; j < tt.length; j++) {
+                s = "{ \"dronID\": " + (j + 1) + ", \"drodUID\"=\"a\", \"lat\": "
+                        + tt[j].lst[i].getLat() + ", \"lon\": "
+                        + tt[j].lst[i].getLon() + ", \"h\": "
+                        + tt[j].lst[i].getH() + ", \"t\": "
+                        + tt[j].lst[i].getT() + " }";
+                if (j == (tt.length - 1)) {
+                    System.out.println(s);
+                } else {
+                    System.out.println(s + ",");
+                }
+            }
+            System.out.println("],");
+        }
+        System.out.println("]");
     }
 }
